@@ -1,10 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-docker run -d \
+docker container run -d \
 --rm \
--u root \
--p 8080:8080 \
--v jenkins-data:/var/jenkins_home \
--v /var/run/docker.sock:/var/run/docker.sock \
--v $PWD:/home/GitHub/simple-java-maven-app \
+--user root \
+--name jenkins \
+--publish 8080:8080 \
+--volume jenkins-data:/var/jenkins_home \
+--volume /var/run/docker.sock:/var/run/docker.sock \
+--volume $PWD:/home/GitHub/simple-java-maven-app \
 jenkinsci/blueocean
