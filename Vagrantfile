@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
 			v.customize ["modifyvm", :id, "--memory", 5000]
 			v.customize ["modifyvm", :id, "--name", "node1"]
 		end
-		node1.vm.provision :shell, inline: "swarm init --advertise-addr 192.168.99.101 --listen-addr 192.168.99.101:2377"
+		# node1.vm.provision :shell, inline: "swarm init --advertise-addr 192.168.99.101 --listen-addr 192.168.99.101:2377"
 	end
 
 end
