@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-docker run \
+docker run -d \
 --rm \
 -u root \
 -p 8080:8080 \
