@@ -31,8 +31,8 @@ The `scripts` subdirectory contains a shell script with commands that are execut
       --volume $PWD:/home/GitHub/simple-java-maven-app \
       jenkinsci/blueocean
       ```
-1. If required, instructions are available [here](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/#accessing-the-jenkinsblue-ocean-docker-container) on how to run the setup wizard and to unlock Jenkins
-1. After a minute or so, Jenkins should be accessible at http://node1:8080/blue/pipelines ![Welcome to Jenkins](pics/welcome_to_jenkins.JPG)
+1. After a minute or so, Jenkins should be accessible at http://node1:8080/blue/pipelines _(If required, instructions are available [here](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/#accessing-the-jenkinsblue-ocean-docker-container) on how to run the setup wizard and to unlock Jenkins)_
+![Welcome to Jenkins](pics/welcome_to_jenkins.JPG)
 
 # Create multi-branch pipeline
 1. Follow the "Create a new Pipeline" wizard to create a pipeline defined in the Jenkinsfile
