@@ -19,7 +19,18 @@ The `scripts` subdirectory contains a shell script with commands that are execut
 
 # Jenkins startup
 1. Once inside the VM change the directory: `cd /vagrant` _(This directory contains the cloned repo)_
-1. Start Jenkins by executing the launch script: `./launch_jenkins.sh` _(The cloned repo is mounted in the container at "/home/GitHub/simple-java-maven-app")_
+1. Start Jenkins by executing the launch script: `./launch_jenkins.sh` _(The cloned repo is mounted in the container at "/home/GitHub/simple-java-maven-app")_. The content of this script is as follows:
+      ```
+      docker container run -d \
+      --rm \
+      --user root \
+      --name jenkins \
+      --publish 8080:8080 \
+      --volume jenkins-data:/var/jenkins_home \
+      --volume /var/run/docker.sock:/var/run/docker.sock \
+      --volume $PWD:/home/GitHub/simple-java-maven-app \
+      jenkinsci/blueocean
+      ```
 1. After a minute or so, Jenkins should be accessible at http://node1:8080/blue/pipelines ![Welcome to Jenkins](pics/welcome_to_jenkins.JPG)
 1. If required, instructions are available [here](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/#accessing-the-jenkinsblue-ocean-docker-container) on how to run the setup wizard and to unlock Jenkins
 
@@ -33,5 +44,5 @@ The `scripts` subdirectory contains a shell script with commands that are execut
 In order to stop and remove the container, run the following command: `docker container stop jenkins`
 
 # Destroy VM
-1. Exit teh VM: execute `exit` in the terminal
+1. Exit the VM: execute `exit` in the terminal
 1. Then in the host terminal, exeute `vagrant destroy --force`
