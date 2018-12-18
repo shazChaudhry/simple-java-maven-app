@@ -30,14 +30,15 @@ pipeline {
       }
     }
     stage('Parallel In Sequential') {
-      agent any
       parallel {
         stage('In Parallel 1') {
+          agent any
           steps {
             echo "In Parallel 1"
           }
         }
         stage('In Parallel 2') {
+          agent any
           steps {
             echo "In Parallel 2"
           }
