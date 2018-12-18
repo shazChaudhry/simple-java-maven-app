@@ -22,7 +22,6 @@ pipeline {
       }
       steps {
         sh 'mvn test'
-        input 'Finished using the web site? (Click "Proceed" to continue)'
       }
     }
     stage('Deliver') {
