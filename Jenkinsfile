@@ -29,16 +29,15 @@ pipeline {
 		stage('Start proxies') {
 			failFast true
 			parallel {
-				agent none
 				stage('Nginx') {
-					agent any
+					agent none
 					steps {
 						sh 'docker container stop nginx'
 						sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
 					}
 				}
 				stage('HTTPD') {
-					agent any
+					agent none
 					steps {
 						sh 'docker container stop httpd'
 						sh 'docker container run -d --rm --name httpd --publish 8082:80 httpd'
