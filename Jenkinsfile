@@ -1,17 +1,24 @@
 pipeline {
-	agent {
-		docker {
-			image 'maven:3-alpine'
-			args '-v /root/.m2:/root/.m2'
-		}
-	}
+	agent any
 	stages {
 		stage('Build') {
+			agent {
+				docker {
+					image 'maven:3-alpine'
+					args '-v /root/.m2:/root/.m2'
+				}
+			}
 			steps {
 				sh 'mvn -B -DskipTests clean install'
 			}
 		}
 		stage('Test') {
+			agent {
+				docker {
+					image 'maven:3-alpine'
+					args '-v /root/.m2:/root/.m2'
+				}
+			}
 			steps {
 				sh 'mvn test'
 			}
@@ -22,6 +29,12 @@ pipeline {
 			}
 		}
 		stage('Deliver') {
+			agent {
+				docker {
+					image 'maven:3-alpine'
+					args '-v /root/.m2:/root/.m2'
+				}
+			}
 			steps {
 				sh './jenkins/scripts/deliver.sh'
 			}
@@ -30,14 +43,12 @@ pipeline {
 			failFast true
 			parallel {
 				stage('Nginx') {
-					agent none
 					steps {
 						sh 'docker container stop nginx'
 						sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
 					}
 				}
 				stage('HTTPD') {
-					agent none
 					steps {
 						sh 'docker container stop httpd'
 						sh 'docker container run -d --rm --name httpd --publish 8082:80 httpd'
