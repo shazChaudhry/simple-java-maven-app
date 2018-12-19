@@ -32,13 +32,17 @@ pipeline {
     stage('Parallel In Sequential') {
       parallel {
         stage('Start Nginx') {
-          agent none
+          agent {
+            docker { image 'alpine' }
+          }
           steps {
             sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
           }
         }
         stage('Start HTTPD') {
-          agent none
+          agent {
+            docker { image 'alpine' }
+          }
           steps {
             sh 'docker container run -d --rm --name httpd --publish 8082:80 httpd'
           }
