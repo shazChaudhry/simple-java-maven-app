@@ -34,7 +34,7 @@ pipeline {
         stage('Start Nginx') {
           agent any
           steps {
-            docker container run -d --rm --name nginx --publish 8081:80 nginx
+            sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
           }
         }
         stage('Start HTTPD') {
