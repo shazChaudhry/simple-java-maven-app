@@ -31,16 +31,16 @@ pipeline {
     }
     stage('Parallel In Sequential') {
       parallel {
-        stage('In Parallel 1') {
+        stage('Start Nginx') {
           agent any
           steps {
-            echo "In Parallel 1"
+            sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
           }
         }
-        stage('In Parallel 2') {
+        stage('Start HTTPD') {
           agent any
           steps {
-            echo "In Parallel 2"
+            sh 'docker container run -d --rm --name httpd --publish 8082:80 httpd'
           }
         }
       }
