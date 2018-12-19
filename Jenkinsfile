@@ -32,6 +32,7 @@ pipeline {
     stage('Parallel In Sequential') {
       parallel {
         stage('Start Nginx') {
+          agent none
           steps {
             sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
           }
