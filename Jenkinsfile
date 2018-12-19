@@ -1,58 +1,59 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3-alpine'
-      args '-v /root/.m2:/root/.m2'
-    }
-
-  }
+  agent none
   stages {
+    stage('Start proxies') {
+	  failFast true
+      parallel {
+        stage('Nginx') {
+          agent any
+          steps {
+            sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
+          }
+        }
+        stage('HTTPD') {
+          agent any
+          steps {
+            sh 'docker container run -d --rm --name httpd --publish 8082:80 httpd'
+          }
+        }
+      }
+    }
     stage('Build') {
+	  agent {
+      docker {
+        image 'maven:3-alpine'
+        args '-v /root/.m2:/root/.m2'
+      }
+	  }
       steps {
         sh 'mvn -B -DskipTests clean package'
       }
     }
     stage('Test') {
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-
-        }
-
+	  agent {
+      docker {
+        image 'maven:3-alpine'
+        args '-v /root/.m2:/root/.m2'
       }
+	  }
       steps {
         sh 'mvn test'
       }
-    }
-    stage('Deliver') {
-      steps {
-        sh './jenkins/scripts/deliver.sh'
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+        }
       }
     }
-    stage('Parallel In Sequential') {
-      parallel {
-        stage('Start Nginx') {
-          agent {
-            docker { 
-              image 'docker' 
-              args '-v /var/run/docker.sock:/var/run/docker.sock'
-            }
-          }
-          steps {
-            sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
-          }
-        }
-        stage('Start HTTPD') {
-          agent {
-            docker { 
-              image 'docker' 
-              args '-v /var/run/docker.sock:/var/run/docker.sock'
-            }
-          }
-          steps {
-            sh 'docker container run -d --rm --name httpd --publish 8082:80 httpd'
-          }
-        }
+    stage('Deliver') {
+	  agent {
+      docker {
+        image 'maven:3-alpine'
+        args '-v /root/.m2:/root/.m2'
+      }
+	  }
+      steps {
+        sh './jenkins/scripts/deliver.sh'
       }
     }
   }
