@@ -36,7 +36,7 @@ pipeline {
 				}
 			}
 			steps {
-				sh './jenkins/scripts/deliver.sh'
+				sh 'java -jar /root/.m2/repository/com/mycompany/app/my-app/1.0-SNAPSHOT/my-app-1.0-SNAPSHOT.jar'
 			}
 		}
 		stage('Start proxies') {
