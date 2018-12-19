@@ -27,9 +27,9 @@ pipeline {
 			}
 		}
 		stage('Start proxies') {
-			agent none
 			failFast true
 			parallel {
+				agent none
 				stage('Nginx') {
 					agent any
 					steps {
