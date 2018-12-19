@@ -33,7 +33,10 @@ pipeline {
       parallel {
         stage('Start Nginx') {
           agent {
-            docker { image 'docker' }
+            docker { 
+              image 'docker' 
+              args '-v /var/run/docker.sock:/var/run/docker.sock'
+            }
           }
           steps {
             sh 'docker container run -d --rm --name nginx --publish 8081:80 nginx'
@@ -41,7 +44,10 @@ pipeline {
         }
         stage('Start HTTPD') {
           agent {
-            docker { image 'docker' }
+            docker { 
+              image 'docker' 
+              args '-v /var/run/docker.sock:/var/run/docker.sock'
+            }
           }
           steps {
             sh 'docker container run -d --rm --name httpd --publish 8082:80 httpd'
